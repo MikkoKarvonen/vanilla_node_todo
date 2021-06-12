@@ -1,8 +1,10 @@
 const http = require("http");
+const html_generator = require("./html_generator");
 
 const listener = (request, response) => {
-  response.writeHead(200);
-  response.end("Hello, World!");
+  const html = html_generator.get_html();
+  response.writeHead(200, { "Content-Type": "text/html" });
+  response.end(html);
 };
 
 const server = http.createServer(listener);
