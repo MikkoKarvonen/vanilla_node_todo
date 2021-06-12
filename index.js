@@ -4,18 +4,16 @@ const html_generator = require("./html_generator");
 const listItems = [];
 
 const listener = (request, response) => {
-  if (request.method === "POST") {
+  if (request.url === "/add_note" && request.method === "POST") {
     let body = "";
     request.on("data", function (data) {
-      if (data.includes("name=")) {
-        body = data;
-      }
+      body = data.toString();
     });
     request.on("end", function () {
-      body = body.toString().replace("name=", "");
       listItems.push(body);
+      console.log(listItems);
     });
-  } else if (request.method === "GET") {
+  } else if (request.url === "/" && request.method === "GET") {
     const html = html_generator.get_html();
     response.writeHead(200, { "Content-Type": "text/html" });
     response.end(html);

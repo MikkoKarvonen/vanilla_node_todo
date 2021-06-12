@@ -10,13 +10,20 @@ const get_html = () => {
 </head>
 <body>
     <h1>vanilla_node_todo</h1>
-    <form method="post" action="http://localhost:3000" id="new_note">
-        <input type="text" name="name" />
-        <input type="submit" value="Submit">
+    <form>
+        <input type="text" name="name" id="new_note_text"/>
+        <button id="new_note">Submit</button>
     </form> 
     <script>
-    document.getElementbyId("new_note").addEventListener("click", 
+    document.getElementById("new_note").addEventListener("click", 
     function(e){
+        const data = document.getElementById("new_note_text").value
+        fetch("/add_note", {
+            method: "POST", 
+            body: data
+        }).then(res => {
+            console.log("Request complete! response:", res);
+        });
       e.preventDefault();
     })
     </script>
