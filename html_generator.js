@@ -1,4 +1,4 @@
-const get_html = () => {
+const get_html = (listItems) => {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,10 @@ const get_html = () => {
     <form>
         <input type="text" name="name" id="new_note_text"/>
         <button id="new_note">Submit</button>
-    </form> 
+    </form>
+    <ul>
+        ${generateTodos(listItems)}
+    </ul>
     <script>
     document.getElementById("new_note").addEventListener("click", 
     function(e){
@@ -30,6 +33,14 @@ const get_html = () => {
 </body>
 </html>
   `;
+};
+
+const generateTodos = (listItems) => {
+  let items = ``;
+  listItems.map((item) => {
+    items += `<li>${item}</li>`;
+  });
+  return items;
 };
 
 exports.get_html = get_html;

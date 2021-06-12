@@ -14,7 +14,7 @@ const listener = (request, response) => {
       console.log(listItems);
     });
   } else if (request.url === "/" && request.method === "GET") {
-    const html = html_generator.get_html();
+    const html = html_generator.get_html(listItems);
     response.writeHead(200, { "Content-Type": "text/html" });
     response.end(html);
   }
