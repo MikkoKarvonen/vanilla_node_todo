@@ -10,10 +10,16 @@ const get_html = () => {
 </head>
 <body>
     <h1>vanilla_node_todo</h1>
-    <form>
-        <input/>
+    <form method="post" action="http://localhost:3000" id="new_note">
+        <input type="text" name="name" />
         <input type="submit" value="Submit">
     </form> 
+    <script>
+    document.getElementbyId("new_note").addEventListener("click", 
+    function(e){
+      e.preventDefault();
+    })
+    </script>
 </body>
 </html>
   `;
