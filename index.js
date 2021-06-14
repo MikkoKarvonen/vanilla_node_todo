@@ -4,13 +4,13 @@ const html_generator = require("./html_generator");
 const listItems = [];
 
 const listener = (request, response) => {
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+    "Access-Control-Max-Age": 2592000,
+  };
   if (request.method === "GET") {
     if (request.url === "/notes") {
-      const headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
-        "Access-Control-Max-Age": 2592000,
-      };
       response.writeHead(200, headers, { "Content-Type": "application/json" });
       response.end(JSON.stringify(listItems));
     } else if (request.url === "/") {
@@ -27,6 +27,8 @@ const listener = (request, response) => {
       request.on("end", function () {
         listItems.push(body);
         console.log(listItems);
+        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.end("Note received");
       });
     }
   }
