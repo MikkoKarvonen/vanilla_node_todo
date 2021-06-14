@@ -39,7 +39,18 @@ const listener = (request, response) => {
         let element = listItems.find((item) => item.date === body);
         element.done = !element.done;
         response.writeHead(200, headers, { "Content-Type": "text/html" });
-        response.end("Note received");
+        response.end("Note edited");
+      });
+    } else if (request.url === "/remove_note") {
+      let body = "";
+      request.on("data", function (data) {
+        body += data;
+      });
+      request.on("end", function () {
+        const index = listItems.findIndex((item) => item.date === body);
+        if (index > -1) listItems.splice(index, 1);
+        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.end("Note removed");
       });
     }
   }

@@ -5,7 +5,7 @@ fetch("http://localhost:3000/notes")
       const done = note.done ? `class="done"` : null;
       document.getElementById(
         "notes"
-      ).innerHTML += `<li ${done} id=${note.date}>${note.data}</li>`;
+      ).innerHTML += `<li ${done} id=${note.date}>${note.data} <button>x</button></li>`;
     });
   });
 
@@ -34,5 +34,13 @@ document.getElementById("notes").addEventListener("click", function (e) {
         : classList.add("done");
     });
     e.preventDefault();
+  } else if (e.target.tagName === "BUTTON") {
+    const id = e.target.parentNode.id;
+    fetch("http://localhost:3000/remove_note", {
+      method: "POST",
+      body: id,
+    }).then((res) => {
+      document.getElementById(id).remove();
+    });
   }
 });
