@@ -22,11 +22,22 @@ const listener = (request, response) => {
     if (request.url === "/add_note") {
       let body = "";
       request.on("data", function (data) {
-        body = data.toString();
+        body += data;
       });
       request.on("end", function () {
-        listItems.push(body);
+        listItems.push(JSON.parse(body));
         console.log(listItems);
+        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.end("Note received");
+      });
+    } else if (request.url === "/edit_note") {
+      let body = "";
+      request.on("data", function (data) {
+        body += data;
+      });
+      request.on("end", function () {
+        let element = listItems.find((item) => item.date === body);
+        element.done = !element.done;
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note received");
       });
