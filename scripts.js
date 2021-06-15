@@ -1,4 +1,4 @@
-fetch("http://localhost:3000/notes")
+fetch("/notes")
   .then((response) => response.json())
   .then((data) => {
     data.map((note) => {
@@ -14,7 +14,7 @@ document.getElementById("new_note").addEventListener("click", function (e) {
   const id = new Date().getTime();
   if (data.replace(/\s/g, "").length) {
     const obj = { data: data, date: id, done: false };
-    fetch("http://localhost:3000/add_note", {
+    fetch("/add_note", {
       method: "POST",
       body: JSON.stringify(obj),
     }).then((res) => {
@@ -29,7 +29,7 @@ document.getElementById("new_note").addEventListener("click", function (e) {
 const noteClick = (id) => {
   const element = document.getElementById(id);
   const classList = element.classList;
-  fetch("http://localhost:3000/edit_note", {
+  fetch("/edit_note", {
     method: "POST",
     body: id,
   }).then((res) => {
@@ -41,7 +41,7 @@ const noteClick = (id) => {
 };
 
 const noteRemove = (id) => {
-  fetch("http://localhost:3000/remove_note", {
+  fetch("/remove_note", {
     method: "POST",
     body: id,
   }).then((res) => {
