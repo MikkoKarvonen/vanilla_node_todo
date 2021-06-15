@@ -1,7 +1,6 @@
 const http = require("http");
 const fs = require("fs").promises;
 
-const html_generator = require("./html_generator");
 const { fileFetcher, updateFile } = require("./file_helper");
 
 console.log("fileFetcher", fileFetcher());
