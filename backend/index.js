@@ -36,7 +36,7 @@ const listener = (request, response) => {
         body += data;
       });
       request.on("end", function () {
-        let element = listItems.find((item) => item.date === body);
+        let element = listItems.find((item) => item.date == body);
         element.done = !element.done;
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note edited");
@@ -47,7 +47,7 @@ const listener = (request, response) => {
         body += data;
       });
       request.on("end", function () {
-        const index = listItems.findIndex((item) => item.date === body);
+        const index = listItems.findIndex((item) => item.date == body);
         if (index > -1) listItems.splice(index, 1);
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note removed");
