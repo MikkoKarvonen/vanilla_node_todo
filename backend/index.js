@@ -1,7 +1,10 @@
 const http = require("http");
 const html_generator = require("./html_generator");
+const { fileFetcher, updateFile } = require("./file_helper");
 
-const listItems = [];
+console.log("fileFetcher", fileFetcher());
+
+const listItems = fileFetcher();
 
 const listener = (request, response) => {
   const headers = {
@@ -26,7 +29,7 @@ const listener = (request, response) => {
       });
       request.on("end", function () {
         listItems.push(JSON.parse(body));
-        console.log(listItems);
+        updateFile(listItems);
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note received");
       });
@@ -38,6 +41,7 @@ const listener = (request, response) => {
       request.on("end", function () {
         let element = listItems.find((item) => item.date == body);
         element.done = !element.done;
+        updateFile(listItems);
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note edited");
       });
@@ -49,6 +53,7 @@ const listener = (request, response) => {
       request.on("end", function () {
         const index = listItems.findIndex((item) => item.date == body);
         if (index > -1) listItems.splice(index, 1);
+        updateFile(listItems);
         response.writeHead(200, headers, { "Content-Type": "text/html" });
         response.end("Note removed");
       });
