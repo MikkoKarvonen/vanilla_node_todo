@@ -1,4 +1,6 @@
 const http = require("http");
+const fs = require("fs").promises;
+
 const html_generator = require("./html_generator");
 const { fileFetcher, updateFile } = require("./file_helper");
 
@@ -17,9 +19,23 @@ const listener = (request, response) => {
       response.writeHead(200, headers, { "Content-Type": "application/json" });
       response.end(JSON.stringify(listItems));
     } else if (request.url === "/") {
-      const html = html_generator.get_html(listItems);
-      response.writeHead(200, { "Content-Type": "text/html" });
-      response.end(html);
+      fs.readFile(__dirname + "/index.html").then((contents) => {
+        response.setHeader("Content-Type", "text/html");
+        response.writeHead(200);
+        response.end(contents);
+      });
+    } else if (request.url === "/styles.css") {
+      fs.readFile(__dirname + "/styles.css").then((contents) => {
+        response.setHeader("Content-Type", "text/css");
+        response.writeHead(200);
+        response.end(contents);
+      });
+    } else if (request.url === "/scripts.js") {
+      fs.readFile(__dirname + "/scripts.js").then((contents) => {
+        response.setHeader("Content-Type", "text/js");
+        response.writeHead(200);
+        response.end(contents);
+      });
     }
   } else if (request.method === "POST") {
     if (request.url === "/add_note") {
