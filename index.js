@@ -3,8 +3,6 @@ const fs = require("fs").promises;
 
 const { fileFetcher, updateFile } = require("./file_helper");
 
-console.log("fileFetcher", fileFetcher());
-
 const listItems = fileFetcher();
 
 const listener = (request, response) => {
