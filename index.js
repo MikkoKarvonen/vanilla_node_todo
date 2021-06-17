@@ -8,14 +8,9 @@ console.log("fileFetcher", fileFetcher());
 const listItems = fileFetcher();
 
 const listener = (request, response) => {
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
-    "Access-Control-Max-Age": 2592000,
-  };
   if (request.method === "GET") {
     if (request.url === "/notes") {
-      response.writeHead(200, headers, { "Content-Type": "application/json" });
+      response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(listItems));
     } else if (request.url === "/") {
       fs.readFile(__dirname + "/index.html").then((contents) => {
@@ -39,7 +34,7 @@ const listener = (request, response) => {
       request.on("end", function () {
         listItems.push(JSON.parse(body));
         updateFile(listItems);
-        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.writeHead(200, { "Content-Type": "text/html" });
         response.end("Note received");
       });
     } else if (request.url === "/edit_note") {
@@ -51,7 +46,7 @@ const listener = (request, response) => {
         let element = listItems.find((item) => item.date == body);
         element.done = !element.done;
         updateFile(listItems);
-        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.writeHead(200, { "Content-Type": "text/html" });
         response.end("Note edited");
       });
     } else if (request.url === "/remove_note") {
@@ -63,7 +58,7 @@ const listener = (request, response) => {
         const index = listItems.findIndex((item) => item.date == body);
         if (index > -1) listItems.splice(index, 1);
         updateFile(listItems);
-        response.writeHead(200, headers, { "Content-Type": "text/html" });
+        response.writeHead(200, { "Content-Type": "text/html" });
         response.end("Note removed");
       });
     }
