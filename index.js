@@ -19,21 +19,15 @@ const listener = (request, response) => {
       response.end(JSON.stringify(listItems));
     } else if (request.url === "/") {
       fs.readFile(__dirname + "/index.html").then((contents) => {
-        response.setHeader("Content-Type", "text/html");
-        response.writeHead(200);
-        response.end(contents);
+        sendResponse(response, "html", contents);
       });
     } else if (request.url === "/styles.css") {
       fs.readFile(__dirname + "/styles.css").then((contents) => {
-        response.setHeader("Content-Type", "text/css");
-        response.writeHead(200);
-        response.end(contents);
+        sendResponse(response, "css", contents);
       });
     } else if (request.url === "/scripts.js") {
       fs.readFile(__dirname + "/scripts.js").then((contents) => {
-        response.setHeader("Content-Type", "text/js");
-        response.writeHead(200);
-        response.end(contents);
+        sendResponse(response, "js", contents);
       });
     }
   } else if (request.method === "POST") {
@@ -74,6 +68,12 @@ const listener = (request, response) => {
       });
     }
   }
+};
+
+const sendResponse = (response, type, contents) => {
+  response.setHeader("Content-Type", `text/${type}`);
+  response.writeHead(200);
+  response.end(contents);
 };
 
 const server = http.createServer(listener);
