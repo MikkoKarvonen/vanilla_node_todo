@@ -21,6 +21,7 @@ document.getElementById("new_note").addEventListener("click", function (e) {
       document.getElementById(
         "notes"
       ).innerHTML += `<li><span id="${id}" onclick="noteClick('${id}')">${data}</span> <button onclick="noteRemove('${id}')">x</button></li>`;
+      document.getElementById("new_note_text").value = "";
     });
   }
   e.preventDefault();
